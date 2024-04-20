@@ -1,0 +1,6 @@
+scripts.txt
+venv
+**/serialized/**
+__pycache__
+.idea
+*.pem
