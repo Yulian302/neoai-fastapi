@@ -3,4 +3,9 @@ venv
 **/serialized/**
 __pycache__
 .idea
+<<<<<<< HEAD
 *.pem
+=======
+*.pem
+*.zip
+>>>>>>> 7dabc79 (fixed bugs)
