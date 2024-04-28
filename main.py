@@ -4,9 +4,10 @@ import ssl
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
+from fastapi.responses import JSONResponse
 from starlette.middleware.cors import CORSMiddleware
 
-from models.models import ModelData, MODELS
+from models.models import ModelData, MODELS, MODELS_BASE_PATH
 from models.utils.prediction import use_vgg16_model
 from models.utils.segmentation import use_unet_model
 
@@ -15,13 +16,7 @@ app = FastAPI()
 ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 ssl_context.load_cert_chain("./cert.pem", keyfile="./key.pem")
 
-origins = [
-    "https://localhost:3000",
-    "http://localhost:3000",
-    "https://neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app:443",
-    "https://neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app",
-    "http://neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app",
-]
+origins = ["*"]
 
 
 app.add_middleware(
@@ -34,37 +29,35 @@ app.add_middleware(
 
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=[
-        "localhost",
-        "neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app",
-    ],
+    allowed_hosts=["*"],
 )
 
 
 @app.get("/")
 def home():
-    return {"health_check": "OK", "model_version": "1.0"}
+    return JSONResponse({"health_check": "OK", "model_version": "1.0"})
 
 
 @app.post("/api/models/{model_id}/use/")
-def use_model(payload: ModelData, model_id=1):
-    # try:
-    format_, img_str = payload.image.split(";base64,")
-    model_name = MODELS[model_id]
-    print(model_name)
-    models_size = {"ClModel": 512, "BrainTumorMriSegmentationUnet": 128}
-    prediction_label, infer_time = use_ai_model(
-        model_name, img_str, img_size=models_size[model_name]
-    )
-    return {"prediction_label": prediction_label, "inference_time": infer_time}
-    # except Exception as e:
-    #     return {"error": "There was an error using a model"}
+def use_model(payload: ModelData, model_id: str = "1"):
+    try:
+        format_, img_str = payload.image.split(";base64,")
+        model_info = MODELS[str(model_id)]
+        model_name = model_info["name"]
+        prediction_label, infer_time = use_ai_model(
+            model_name, img_str, img_size=model_info["image_size"]
+        )
+        return JSONResponse(
+            {"prediction_label": prediction_label, "inference_time": infer_time}
+        )
+    except Exception as e:
+        return JSONResponse({"error": e}, status_code=500)
 
 
-def use_ai_model(model_name: str, base64data, img_size):
+def use_ai_model(model_name: str, base64data, img_size: int):
     model_path = os.path.join(
-        "/Users/yulianbohomol/PycharmProjects/neoAiModels/models/serialized/",
-        f"{model_name.lower()}.h5",
+        MODELS_BASE_PATH,
+        f"{model_name}.h5",
     )
     model_params = {
         "ClModel": lambda: use_vgg16_model(
