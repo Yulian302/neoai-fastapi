@@ -13,10 +13,10 @@ from models.utils.segmentation import use_unet_model
 
 app = FastAPI()
 
-ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-ssl_context.load_cert_chain("./cert.pem", keyfile="./key.pem")
+# ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+# ssl_context.load_cert_chain("/etc/letsencrypt/live/sampledomain.space/fullchain.pem", keyfile="/etc/letsencrypt/live/sampledomain.space/privkey.pem")
 
-origins = ["*"]
+origins = ["sampledomain.space","api.sampledomain.space"]
 
 
 app.add_middleware(
@@ -29,7 +29,7 @@ app.add_middleware(
 
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["*"],
+    allowed_hosts=["sampledomian.space","api.sampledomain.space","localhost"],
 )
 
 
