@@ -16,7 +16,7 @@ app = FastAPI()
 # ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 # ssl_context.load_cert_chain("/etc/letsencrypt/live/sampledomain.space/fullchain.pem", keyfile="/etc/letsencrypt/live/sampledomain.space/privkey.pem")
 
-origins = ["sampledomain.space","api.sampledomain.space"]
+origins = ["*"]
 
 
 app.add_middleware(
@@ -57,7 +57,7 @@ def use_model(payload: ModelData, model_id: str = "1"):
 def use_ai_model(model_name: str, base64data, img_size: int):
     model_path = os.path.join(
         MODELS_BASE_PATH,
-        f"{model_name}.h5",
+        f"/home/ec2-user/neoai-fastapi/models/serialized/{model_name.lower()}.h5",
     )
     model_params = {
         "ClModel": lambda: use_vgg16_model(
