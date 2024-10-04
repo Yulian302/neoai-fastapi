@@ -197,9 +197,6 @@ def dice_coef(y_true, y_pred, smooth=1.0):
         loss = (2.0 * intersection + smooth) / (
             K.sum(y_true_f) + K.sum(y_pred_f) + smooth
         )
-        loss = (2.0 * intersection + smooth) / (
-            K.sum(y_true_f) + K.sum(y_pred_f) + smooth
-        )
         #     K.print_tensor(loss, message='loss value for class {} : '.format(SEGMENT_CLASSES[i]))
         if i == 0:
             total_loss = loss
@@ -276,3 +273,4 @@ def init_model(img_size):
             dice_coef_enhancing,
         ],
     )
+    return model

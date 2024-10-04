@@ -6,20 +6,11 @@ from models.source.classifiers.ClModel import ClModel
 from models.utils.Image import Image
 
 
-def init_model(model_name: str) -> any:
-    model_name_lower = model_name.lower()
-    if model_name_lower == "clmodel":
-        return ClModel
-    else:
-        raise Exception("No models found")
-
-
 def use_vgg16_model(model_path: str, model_name: str, base64data, image_size):
     try:
-        cl_model = init_model(model_name)
         model = load_model(
             model_path,
-            custom_objects={model_name: cl_model},
+            custom_objects={model_name: ClModel},
         )
         img_ = Image(data=base64data)
         img_.augment()
@@ -28,7 +19,7 @@ def use_vgg16_model(model_path: str, model_name: str, base64data, image_size):
         predictions = model.predict(img_.image)
         infer_time = time() - start
         predictions = np.argmax(predictions, axis=1)
-        prediction_label = get_prediction_label(cl_model, int(predictions[0]))
+        prediction_label = get_prediction_label(ClModel, int(predictions[0]))
         return prediction_label, infer_time
 
     except FileNotFoundError as e:
