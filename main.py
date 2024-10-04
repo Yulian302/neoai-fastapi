@@ -63,7 +63,7 @@ def use_ai_model(model_name: str, base64data, img_size: int):
     model_path = os.path.join(
         MODELS_BASE_PATH,
         f"/home/ec2-user/neoai-fastapi/models/serialized/{
-            model_name.lower()}.h5",
+            model_name.lower()}.h5"
     )
     model_params = {
         "ClModel": lambda: use_vgg16_model(
