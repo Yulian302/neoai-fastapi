@@ -16,7 +16,10 @@ app = FastAPI()
 # ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 # ssl_context.load_cert_chain("/etc/letsencrypt/live/sampledomain.space/fullchain.pem", keyfile="/etc/letsencrypt/live/sampledomain.space/privkey.pem")
 
-origins = ["*"]
+origins = [
+    "neo-ai-front-rprz.vercel.app"
+]
+
 
 
 app.add_middleware(
@@ -29,7 +32,9 @@ app.add_middleware(
 
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["sampledomian.space","api.sampledomain.space","localhost"],
+    allowed_hosts=[
+        "localhost",
+    ]
 )
 
 
