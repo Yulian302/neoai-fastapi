@@ -18,9 +18,6 @@ ssl_context.load_cert_chain("./cert.pem", keyfile="./key.pem")
 origins = [
     "https://localhost:3000",
     "http://localhost:3000",
-    "https://neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app:443",
-    "https://neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app",
-    "http://neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app",
 ]
 
 
@@ -36,7 +33,6 @@ app.add_middleware(
     TrustedHostMiddleware,
     allowed_hosts=[
         "localhost",
-        "neo-ai-front-rprz-git-main-yulian302s-projects.vercel.app",
     ],
 )
 
