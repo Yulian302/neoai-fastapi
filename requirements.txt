@@ -35,6 +35,7 @@ google-auth-oauthlib==1.0.0
 google-pasta==0.2.0
 greenlet==3.0.3
 grpcio==1.62.2
+gunicorn==23.0.0
 h11==0.14.0
 h5py==3.11.0
 idna==3.7
@@ -64,6 +65,7 @@ ml-dtypes==0.3.2
 msgpack==1.0.8
 namex==0.0.8
 netaddr==1.2.1
+netifaces==0.11.0
 networkx==3.3
 numpy==1.26.4
 oauthlib==3.2.2
@@ -137,6 +139,7 @@ rich==13.7.1
 Routes==2.5.1
 rpds-py==0.18.0
 rsa==4.9
+setuptools==75.1.0
 simplegeneric==0.8.1
 simplejson==3.19.2
 six==1.16.0
@@ -147,6 +150,9 @@ statsd==4.0.1
 stevedore==5.2.0
 taskflow==5.7.0
 tenacity==8.2.3
+tensorboard==2.16.2
+tensorboard-data-server==0.7.2
+tensorflow==2.16.1
 termcolor==2.4.0
 testresources==2.0.1
 testscenarios==0.5.0
@@ -160,6 +166,7 @@ warlock==2.0.1
 wcwidth==0.2.13
 WebOb==1.8.7
 Werkzeug==3.0.2
+wheel==0.44.0
 wrapt==1.14.1
 WSME==0.12.1
 yappi==1.6.0
